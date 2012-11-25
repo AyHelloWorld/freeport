@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import subprocess
+
+
+PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8000
+END_PORT = int(sys.argv[2]) if len(sys.argv) > 2 else PORT + 1000
+
+HOST_RE = r'(0\.0\.0\.0|localhost|127\.0\.0\.1):%s'
+
+
+while PORT < END_PORT:
+    p1 = subprocess.Popen(["netstat", "-nlp"],
+                          stdout=subprocess.PIPE,
+                          stderr=open(os.devnull, 'w'))
+    p2 = subprocess.Popen(["grep", "-E", HOST_RE % PORT],
+                          stdin=p1.stdout,
+                          stdout=subprocess.PIPE)
+    p1.stdout.close()
+    s = p2.communicate()[0]
+    if len(s) and s.startswith("tcp"):
+        PORT += 1
+    else:
+        print PORT
+        exit(0)
+
+exit(1)
