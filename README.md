@@ -3,15 +3,14 @@ freeport
 
 Find first free (not used by any program) TCP port in given range
 
-Usage: `freeport \[START\_PORT\] \[END\_PORT\]`
+Usage: `freeport [START_PORT] [END_PORT]`
 
 Defaults:
-*   START\_PORT - 8000
-*   END\_PORT   - START\_PORT + 1000
+*   START\_PORT: *8000*
+*   END\_PORT: *START\_PORT + 1000*
 
 
-Example usage:
---------------
+### Example usage:
 
     $ ./manage.py runserver `freeport`
     $ tty.js --port `freeport 8100`
